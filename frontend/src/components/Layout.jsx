@@ -5,24 +5,6 @@ import { useTheme } from '../context/ThemeContext';
 const Layout = ({ currentPage, setCurrentPage, children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  function Layout({ children }) {
-    const { darkMode } = useTheme();
-
-    return (
-        <div className="flex h-screen bg-gray-50 dark:bg-gray-900">
-          {/* Sidebar */}
-          <div className="bg-gradient-to-b from-blue-600 to-blue-800 dark:from-blue-700 dark:to-blue-900">
-            {/* Conteúdo da sidebar */}
-          </div>
-
-          {/* Main Content */}
-          <div className="flex-1 overflow-y-auto bg-gray-50 dark:bg-gray-900">
-            {children}
-          </div>
-        </div>
-      );
-    }
-
   const menuItems = [
     { id: 'dashboard', name: 'Dashboard', icon: Home },
     { id: 'deliveries', name: 'Entregas', icon: Package },
