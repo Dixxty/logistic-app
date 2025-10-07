@@ -4,6 +4,9 @@ const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
   const [darkMode, setDarkMode] = useState(() => {
+    // Limpa localStorage antigo conflitante
+    localStorage.removeItem('theme');
+    
     // Carrega preferência salva no localStorage
     const saved = localStorage.getItem('darkMode');
     return saved ? JSON.parse(saved) : false;
