@@ -4,28 +4,45 @@ const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
   const [darkMode, setDarkMode] = useState(() => {
-    // Limpa localStorage antigo conflitante
-    localStorage.removeItem('theme');
+    // Limpa localStorage antigo conflitante (só uma vez)
+    if (localStorage.getItem('theme')) {
+      localStorage.removeItem('theme');
+    }
     
     // Carrega preferência salva no localStorage
     const saved = localStorage.getItem('darkMode');
-    return saved ? JSON.parse(saved) : false;
+    if (saved !== null) {
+      return JSON.parse(saved);
+    }
+    return false; // Padrão: modo claro
   });
 
   useEffect(() => {
+    console.log('ThemeContext: darkMode mudou para', darkMode);
+    
     // Salva preferência no localStorage
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
 
     // Adiciona/remove classe dark no html
+    const root = document.documentElement;
     if (darkMode) {
-      document.documentElement.classList.add('dark');
+      root.classList.add('dark');
+      console.log('ThemeContext: Classe dark ADICIONADA');
     } else {
-      document.documentElement.classList.remove('dark');
+      root.classList.remove('dark');
+      console.log('ThemeContext: Classe dark REMOVIDA');
     }
+    
+    // Verificação
+    console.log('Classes no HTML:', root.className);
   }, [darkMode]);
 
   const toggleDarkMode = () => {
-    setDarkMode(prev => !prev);
+    console.log('ThemeContext: toggleDarkMode chamado');
+    setDarkMode(prev => {
+      console.log('ThemeContext: Mudando de', prev, 'para', !prev);
+      return !prev;
+    });
   };
 
   return (
